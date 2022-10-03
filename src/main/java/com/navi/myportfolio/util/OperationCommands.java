@@ -1,4 +1,4 @@
-package com.navi.myportfolio;
+package com.navi.myportfolio.util;
 
 public enum OperationCommands {
   ALLOCATE("ALLOCATE"),
@@ -8,7 +8,6 @@ public enum OperationCommands {
   REBALANCE("REBALANCE");
 
   private final String value;
-
   OperationCommands(String value) {
     this.value = value;
   }

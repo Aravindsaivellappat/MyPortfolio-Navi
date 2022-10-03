@@ -1,17 +1,17 @@
-package com.navi.myportfolio;
+package com.navi.myportfolio.dto;
 
 import java.io.Serializable;
 
 public class Portfolio implements Serializable {
 
-  private Integer equity;
-  private Integer debt;
-  private Integer gold;
-  private Integer total;
-  private Integer equityAllocation;
-  private Integer debtAllocation;
-  private Integer goldAllocation;
-  private Integer totalAllocation;
+  private Integer equity = 0;
+  private Integer debt = 0;
+  private Integer gold = 0;
+  private Integer total = 0;
+  private Integer equityAllocation = 0;
+  private Integer debtAllocation = 0;
+  private Integer goldAllocation = 0;
+  private Integer totalAllocation = 0;
 
   public Integer getEquity() {
     return equity;

@@ -1,4 +1,4 @@
-package com.navi.myportfolio;
+package com.navi.myportfolio.service;
 
 import java.io.FileInputStream;
 
