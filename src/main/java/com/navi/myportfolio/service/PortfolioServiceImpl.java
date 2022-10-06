@@ -40,6 +40,7 @@ public class PortfolioServiceImpl implements PortfolioService {
       double curDebt = (double) portfolio.getDebt();
       double curGold = (double) portfolio.getGold();
 
+      // Checks if Change is for JANUARY, if so SIP need not be added before change calculation.
       if (command[4].equalsIgnoreCase(Months.JANUARY.name())) {
         curEquity += (curEquity * UtilityFunctions.getPercentFromString(command[1]));
         curDebt += (curDebt * UtilityFunctions.getPercentFromString(command[2]));
@@ -50,7 +51,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         curGold = UtilityFunctions.getSipAddedAmount(sip.getGold() + curGold, command[3]);
       }
 
-      double total = curEquity + curDebt + curGold;
+      double total = Math.floor(curEquity) + Math.floor(curDebt) + Math.floor(curGold);
 
       Portfolio newPortfolio =
           new Portfolio(
@@ -63,6 +64,7 @@ public class PortfolioServiceImpl implements PortfolioService {
               portfolio.getGoldAllocation(),
               portfolio.getRebalaced());
 
+      // Checks for JUNE Or DECEMBER, if so rebalance the portfolio
       if (command[4].equalsIgnoreCase(Months.JUNE.name())
           || command[4].equalsIgnoreCase(Months.DECEMBER.name())) {
         double rebalancedEquity = (total * newPortfolio.getEquityAllocation()) / 100;

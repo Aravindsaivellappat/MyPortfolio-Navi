@@ -24,7 +24,7 @@ public class PortfolioAdapter {
     portfolio.setEquityAllocation(Math.floor(equityPercent));
     portfolio.setDebtAllocation(Math.floor(debtPercent));
     portfolio.setGoldAllocation(Math.floor(goldPercent));
-    portfolio.setTotalAllocation(Math.floor(equityPercent + goldPercent + debtPercent));
+    portfolio.setTotalAllocation(equityPercent + goldPercent + debtPercent);
 
     return portfolio;
   }
