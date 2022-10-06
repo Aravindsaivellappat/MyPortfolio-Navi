@@ -8,10 +8,25 @@ public class Portfolio implements Serializable {
   private Integer debt = 0;
   private Integer gold = 0;
   private Integer total = 0;
-  private Integer equityAllocation = 0;
-  private Integer debtAllocation = 0;
-  private Integer goldAllocation = 0;
-  private Integer totalAllocation = 0;
+  private Double equityAllocation = 0.0;
+  private Double debtAllocation = 0.0;
+  private Double goldAllocation = 0.0;
+  private Double totalAllocation = 0.0;
+  private Boolean isRebalaced = false;
+
+  public Portfolio() {}
+
+  public Portfolio(Integer equity, Integer debt, Integer gold, Integer total, Double equityAllocation,
+      Double debtAllocation, Double goldAllocation, Boolean isRebalaced) {
+    this.equity = equity;
+    this.debt = debt;
+    this.gold = gold;
+    this.total = total;
+    this.equityAllocation = equityAllocation;
+    this.debtAllocation = debtAllocation;
+    this.goldAllocation = goldAllocation;
+    this.isRebalaced = isRebalaced;
+  }
 
   public Integer getEquity() {
     return equity;
@@ -45,57 +60,50 @@ public class Portfolio implements Serializable {
     this.total = total;
   }
 
-  public Integer getEquityAllocation() {
+  public Double getEquityAllocation() {
     return equityAllocation;
   }
 
-  public void setEquityAllocation(Integer equityAllocation) {
+  public void setEquityAllocation(Double equityAllocation) {
     this.equityAllocation = equityAllocation;
   }
 
-  public Integer getDebtAllocation() {
+  public Double getDebtAllocation() {
     return debtAllocation;
   }
 
-  public void setDebtAllocation(Integer debtAllocation) {
+  public void setDebtAllocation(Double debtAllocation) {
     this.debtAllocation = debtAllocation;
   }
 
-  public Integer getGoldAllocation() {
+  public Double getGoldAllocation() {
     return goldAllocation;
   }
 
-  public void setGoldAllocation(Integer goldAllocation) {
+  public void setGoldAllocation(Double goldAllocation) {
     this.goldAllocation = goldAllocation;
   }
 
-  public Integer getTotalAllocation() {
+  public Double getTotalAllocation() {
     return totalAllocation;
   }
 
-  public void setTotalAllocation(Integer totalAllocation) {
+  public void setTotalAllocation(Double totalAllocation) {
     this.totalAllocation = totalAllocation;
+  }
+
+  public Boolean getRebalaced() {
+    return isRebalaced;
+  }
+
+  public void setRebalaced(Boolean rebalaced) {
+    isRebalaced = rebalaced;
   }
 
   @Override
   public String toString() {
-    return "Portfolio{"
-        + "equity="
-        + equity
-        + ", debt="
-        + debt
-        + ", gold="
-        + gold
-        + ", total="
-        + total
-        + ", equityAllocation="
-        + equityAllocation
-        + ", debtAllocation="
-        + debtAllocation
-        + ", goldAllocation="
-        + goldAllocation
-        + ", totalAllocation="
-        + totalAllocation
-        + '}';
+    return "Portfolio{" + "equity=" + equity + ", debt=" + debt + ", gold=" + gold + ", total=" + total +
+           ", equityAllocation=" + equityAllocation + ", debtAllocation=" + debtAllocation + ", goldAllocation=" +
+           goldAllocation + ", totalAllocation=" + totalAllocation + ", isRebalaced=" + isRebalaced + '}';
   }
 }
