@@ -1,9 +1,8 @@
 package com.navi.myportfolio.service;
 
-import com.navi.myportfolio.dto.ChangeHistory;
-import com.navi.myportfolio.dto.SIP;
+import com.navi.myportfolio.entity.ChangeHistory;
+import com.navi.myportfolio.entity.SIP;
 import com.navi.myportfolio.util.OperationCommands;
-import com.navi.myportfolio.dto.Portfolio;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class RebalancerServiceImpl implements RebalancerService {
       } else if (arguments[0].equalsIgnoreCase(OperationCommands.CHANGE.getValue())) {
         history = portfolioService.change(history, sip, arguments);
       } else if (arguments[0].equalsIgnoreCase(OperationCommands.REBALANCE.getValue())) {
-        result.add(portfolioService.rebalance(history, arguments));
+        result.add(portfolioService.rebalance(history));
       } else {
         System.out.println("Command unknown at line: " + lineCount);
       }

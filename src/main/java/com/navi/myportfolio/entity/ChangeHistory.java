@@ -1,4 +1,4 @@
-package com.navi.myportfolio.dto;
+package com.navi.myportfolio.entity;
 
 import com.navi.myportfolio.util.Months;
 import java.io.Serializable;

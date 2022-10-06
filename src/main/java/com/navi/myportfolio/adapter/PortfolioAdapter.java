@@ -1,9 +1,10 @@
 package com.navi.myportfolio.adapter;
 
-import com.navi.myportfolio.dto.Portfolio;
+import com.navi.myportfolio.entity.Portfolio;
 
 public class PortfolioAdapter {
 
+  // Given string array of command, allocate the initial portfolio
   public static Portfolio stringArrayToPortfolio(String[] command) {
 
     Portfolio portfolio = new Portfolio();

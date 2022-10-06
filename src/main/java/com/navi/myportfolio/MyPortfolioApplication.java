@@ -18,13 +18,6 @@ public class MyPortfolioApplication {
             try {
                 FileInputStream inputFileStream = new FileInputStream(args[0]);
                 rebalancerService.parseCommands(inputFileStream);
-
-                // TODO: Reorganise to folders
-                // TODO: Change Service and Impl names
-                // TODO: Add global error handling
-                // TODO: Check if enum to constants for use in switch
-                // TODO: Add global logger
-
             } catch (IOException e) {
                 System.out.println("Error reading file. Please try again");
             }

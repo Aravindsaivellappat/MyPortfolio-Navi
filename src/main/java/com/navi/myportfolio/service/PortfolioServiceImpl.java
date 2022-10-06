@@ -2,19 +2,19 @@ package com.navi.myportfolio.service;
 
 import com.navi.myportfolio.adapter.PortfolioAdapter;
 import com.navi.myportfolio.adapter.SIPAdapter;
-import com.navi.myportfolio.dto.ChangeHistory;
-import com.navi.myportfolio.dto.Portfolio;
-import com.navi.myportfolio.dto.SIP;
+import com.navi.myportfolio.entity.ChangeHistory;
+import com.navi.myportfolio.entity.Portfolio;
+import com.navi.myportfolio.entity.SIP;
 import com.navi.myportfolio.util.Months;
-import com.navi.myportfolio.util.Utilityfunctions;
+import com.navi.myportfolio.util.UtilityFunctions;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PortfolioServiceImpl implements PortfolioService {
 
   @Override
   public List<ChangeHistory> allocate(String[] command) {
-    //    if(command.length != 4) {}
     List<ChangeHistory> histories = new ArrayList<>();
 
     Portfolio portfolio = PortfolioAdapter.stringArrayToPortfolio(command);
@@ -27,13 +27,12 @@ public class PortfolioServiceImpl implements PortfolioService {
 
   @Override
   public SIP sip(String[] command) {
-    //    if(command.length != 4) {}
     return SIPAdapter.commandToSIP(command);
   }
 
   @Override
   public List<ChangeHistory> change(List<ChangeHistory> history, SIP sip, String[] command) {
-    if (sip != null && history.size() > 0) { // TODO: Test if null
+    if (sip != null && history.size() > 0) {
 
       Portfolio portfolio = history.get(history.size() - 1).getPortfolio();
 
@@ -42,13 +41,13 @@ public class PortfolioServiceImpl implements PortfolioService {
       double curGold = (double) portfolio.getGold();
 
       if (command[4].equalsIgnoreCase(Months.JANUARY.name())) {
-        curEquity += (curEquity * Utilityfunctions.getPercentFromString(command[1]));
-        curDebt += (curDebt * Utilityfunctions.getPercentFromString(command[2]));
-        curGold += (curGold * Utilityfunctions.getPercentFromString(command[3]));
+        curEquity += (curEquity * UtilityFunctions.getPercentFromString(command[1]));
+        curDebt += (curDebt * UtilityFunctions.getPercentFromString(command[2]));
+        curGold += (curGold * UtilityFunctions.getPercentFromString(command[3]));
       } else {
-        curEquity = Utilityfunctions.getSipAddedAmount(sip.getEquity() + curEquity, command[1]);
-        curDebt = Utilityfunctions.getSipAddedAmount(sip.getDebt() + curDebt, command[2]);
-        curGold = Utilityfunctions.getSipAddedAmount(sip.getGold() + curGold, command[3]);
+        curEquity = UtilityFunctions.getSipAddedAmount(sip.getEquity() + curEquity, command[1]);
+        curDebt = UtilityFunctions.getSipAddedAmount(sip.getDebt() + curDebt, command[2]);
+        curGold = UtilityFunctions.getSipAddedAmount(sip.getGold() + curGold, command[3]);
       }
 
       double total = curEquity + curDebt + curGold;
@@ -62,7 +61,7 @@ public class PortfolioServiceImpl implements PortfolioService {
               portfolio.getEquityAllocation(),
               portfolio.getDebtAllocation(),
               portfolio.getGoldAllocation(),
-              false);
+              portfolio.getRebalaced());
 
       if (command[4].equalsIgnoreCase(Months.JUNE.name())
           || command[4].equalsIgnoreCase(Months.DECEMBER.name())) {
@@ -87,15 +86,12 @@ public class PortfolioServiceImpl implements PortfolioService {
 
   @Override
   public String balance(List<ChangeHistory> history, String[] command) {
-    StringBuilder value = new StringBuilder();
+    String value;
     if (history.size() > 0) {
       Months requestMonth = Months.valueOf(command[1]);
       for (ChangeHistory change : history) {
         if (change.getMonth().equals(requestMonth)) {
-          value.append(change.getPortfolio().getEquity()).append(" ");
-          value.append(change.getPortfolio().getDebt()).append(" ");
-          value.append(change.getPortfolio().getGold());
-          return value.toString();
+          return UtilityFunctions.createStringFromPortfolio(change.getPortfolio());
         }
       }
     }
@@ -103,16 +99,21 @@ public class PortfolioServiceImpl implements PortfolioService {
   }
 
   @Override
-  public String rebalance(List<ChangeHistory> history, String[] command) {
-    StringBuilder value = new StringBuilder();
-    if (history.size() >= 7) {
-      ChangeHistory change = history.get(history.size() - 1);
-      value.append(change.getPortfolio().getEquity()).append(" ");
-      value.append(change.getPortfolio().getDebt()).append(" ");
-      value.append(change.getPortfolio().getGold());
-    } else {
-      value.append("CANNOT_REBALANCE");
+  public String rebalance(List<ChangeHistory> history) {
+    HashMap<Months, Portfolio> map = new HashMap<>();
+    String value;
+
+    for (ChangeHistory changeHistory : history) {
+      map.put(changeHistory.getMonth(), changeHistory.getPortfolio());
     }
-    return value.toString();
+
+    if (!map.containsKey(Months.JUNE) && !map.containsKey(Months.DECEMBER)) {
+      value = "CANNOT_REBALANCE";
+    } else if (map.containsKey(Months.JUNE) && !map.containsKey(Months.DECEMBER)) {
+      value = UtilityFunctions.createStringFromPortfolio(map.get(Months.JUNE));
+    } else {
+      value = UtilityFunctions.createStringFromPortfolio(map.get(Months.DECEMBER));
+    }
+    return value;
   }
 }
